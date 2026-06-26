@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getAllPayments, updatePaymentStatus } from '../../api.js'; // Adjust path if needed
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const payments = ref([]);
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(payments);
 const isLoading = ref(true);
 const pageError = ref(null);
 const successMessage = ref(null);
@@ -136,7 +139,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="payment in payments" :key="payment._id">
+            <tr v-for="payment in pagedItems" :key="payment._id">
               <td>
                 {{ payment.transactionId }}
                 <span class="cell-sub" title="Booking ID"><i class="ti ti-link"></i> {{ payment.bookingId }}</span>
@@ -157,6 +160,12 @@ onMounted(() => {
             </tr>
           </tbody>
         </table>
+        <AdminPagination
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          :page-numbers="pageNumbers"
+          @go-to-page="goToPage"
+        />
       </div>
     </div>
 

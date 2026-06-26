@@ -131,7 +131,54 @@
 
 .admin-table tbody tr:last-child td { border-bottom: none; }
 
-.admin-table tbody tr:hover td { background: var(--gold-dim); }
+..admin-table tbody tr:hover td { background: var(--gold-dim); }
+
+.admin-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-dim);
+}
+
+.admin-pagination .pagination-btn {
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  background: var(--glass-bg-lt);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-pagination .pagination-btn:hover:not(:disabled) {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+
+.admin-pagination .pagination-btn.active {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--ink-on-gold);
+}
+
+.admin-pagination .pagination-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.admin-pagination .pagination-ellipsis {
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding: 8px 10px;
+}
 
 .admin-empty-row {
   text-align: center;

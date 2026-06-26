@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getAllAirports, createAirport, deactivateAirport, reactivateAirport } from '../../api.js';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const airports = ref([]);
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(airports);
 const errorMessage = ref('');
 const successMessage = ref('');
 const isLoading = ref(false);
@@ -120,7 +123,7 @@ onMounted(loadAirports);
                         <tr v-if="airports.length === 0">
                             <td colspan="6" class="admin-empty-row">No airports found.</td>
                         </tr>
-                        <tr v-for="airport in airports" :key="airport._id">
+                        <tr v-for="airport in pagedItems" :key="airport._id">
                             <td>{{ airport.name }}</td>
                             <td><span class="admin-badge badge-muted">{{ airport.iataCode }}</span></td>
                             <td>{{ airport.city }}</td>
@@ -138,6 +141,12 @@ onMounted(loadAirports);
                         </tr>
                     </tbody>
                 </table>
+                <AdminPagination
+                    :current-page="currentPage"
+                    :total-pages="totalPages"
+                    :page-numbers="pageNumbers"
+                    @go-to-page="goToPage"
+                />
             </div>
 
         </div>

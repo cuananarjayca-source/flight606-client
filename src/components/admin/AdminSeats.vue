@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue';
 import { getAllFlights, getAllSeats, getAllAirports } from '../../api';
 import { useRouter } from 'vue-router';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const router = useRouter();
 const flightSummaries = ref([]);
@@ -9,6 +11,18 @@ const airportsList = ref([]); // Store airports for translation
 const isLoading = ref(true);
 const pageError = ref(null);
 const searchQuery = ref('');
+
+const filteredFlights = computed(() => {
+    if (!searchQuery.value) return flightSummaries.value;
+    const query = searchQuery.value.toLowerCase();
+    return flightSummaries.value.filter(f =>
+        f._id.toLowerCase().includes(query) ||
+        f.displayOrigin.toLowerCase().includes(query) ||
+        f.displayDest.toLowerCase().includes(query)
+    );
+});
+
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(filteredFlights);
 
 // Translator function: turns raw ID into an IATA Code (e.g., "JFK")
 const getAirportCode = (id) => {
@@ -61,16 +75,6 @@ const fetchData = async () => {
         isLoading.value = false;
     }
 };
-
-const filteredFlights = computed(() => {
-    if (!searchQuery.value) return flightSummaries.value;
-    const query = searchQuery.value.toLowerCase();
-    return flightSummaries.value.filter(f =>
-        f._id.toLowerCase().includes(query) ||
-        f.displayOrigin.toLowerCase().includes(query) ||
-        f.displayDest.toLowerCase().includes(query)
-    );
-});
 
 const occupancyRate = (stats) => stats.total > 0 ? Math.round((stats.occupied / stats.total) * 100) : 0;
 
@@ -129,7 +133,7 @@ onMounted(() => fetchData());
             </tr>
           </thead>
           <tbody>
-            <tr v-for="flight in filteredFlights" :key="flight._id">
+            <tr v-for="flight in pagedItems" :key="flight._id">
               <td>
                 {{ flight.displayOrigin }} <i class="ti ti-arrow-right muted"></i> {{ flight.displayDest }}
                 <span class="cell-sub"><i class="ti ti-fingerprint"></i> {{ flight._id }}</span>
@@ -161,6 +165,12 @@ onMounted(() => fetchData());
             </tr>
           </tbody>
         </table>
+        <AdminPagination
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          :page-numbers="pageNumbers"
+          @go-to-page="goToPage"
+        />
       </div>
     </div>
   </div>

@@ -1,15 +1,33 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { getAllBookings, updateBookingStatus, deactivateBooking, reactivateBooking, getFlightById } from '../../api.js';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const bookings = ref([]);
-const isLoading = ref(true);
-const pageError = ref(null);
-
 const flightCache = ref({});
 const searchQuery = ref('');
 const filterStatus = ref('all');
 const filterActive = ref('all');
+
+const filteredBookings = computed(() => {
+    let list = bookings.value;
+    if (filterStatus.value !== 'all') list = list.filter(b => b.status === filterStatus.value);
+    if (filterActive.value === 'active') list = list.filter(b => b.isActive);
+    else if (filterActive.value === 'inactive') list = list.filter(b => !b.isActive);
+    if (searchQuery.value.trim()) {
+        const q = searchQuery.value.toLowerCase();
+        list = list.filter(b =>
+            b.bookingReference?.toLowerCase().includes(q) ||
+            b.guestEmail?.toLowerCase().includes(q) ||
+            flightCache.value[b.flightId]?.flightNumber?.toLowerCase().includes(q)
+        );
+    }
+    return list;
+});
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(filteredBookings);
+const isLoading = ref(true);
+const pageError = ref(null);
 
 const showStatusModal = ref(false);
 const statusTarget = ref(null);
@@ -38,22 +56,6 @@ const stats = computed(() => ({
     confirmed: bookings.value.filter(b => b.status === 'confirmed').length,
     cancelled: bookings.value.filter(b => b.status === 'cancelled').length,
 }));
-
-const filteredBookings = computed(() => {
-    let list = bookings.value;
-    if (filterStatus.value !== 'all') list = list.filter(b => b.status === filterStatus.value);
-    if (filterActive.value === 'active') list = list.filter(b => b.isActive);
-    else if (filterActive.value === 'inactive') list = list.filter(b => !b.isActive);
-    if (searchQuery.value.trim()) {
-        const q = searchQuery.value.toLowerCase();
-        list = list.filter(b =>
-            b.bookingReference?.toLowerCase().includes(q) ||
-            b.guestEmail?.toLowerCase().includes(q) ||
-            flightCache.value[b.flightId]?.flightNumber?.toLowerCase().includes(q)
-        );
-    }
-    return list;
-});
 
 const fetchFlightForBooking = async (flightId) => {
     if (flightCache.value[flightId]) return;
@@ -214,7 +216,7 @@ onMounted(fetchBookings);
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="booking in filteredBookings" :key="booking._id" :class="{ 'row-inactive': !booking.isActive }">
+                        <tr v-for="booking in pagedItems" :key="booking._id" :class="{ 'row-inactive': !booking.isActive }">
                             <td class="cell-mono">{{ booking.bookingReference }}</td>
                             <td>
                                 <span v-if="flightCache[booking.flightId]" class="cell-highlight">
@@ -261,6 +263,12 @@ onMounted(fetchBookings);
                         </tr>
                     </tbody>
                 </table>
+                <AdminPagination
+                    :current-page="currentPage"
+                    :total-pages="totalPages"
+                    :page-numbers="pageNumbers"
+                    @go-to-page="goToPage"
+                />
             </div>
         </div>
 

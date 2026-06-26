@@ -1,11 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getAllFlights, createFlight, updateFlight, deactivateFlight, reactivateFlight, getAllAirlines, getAllAircraft, getAllAirports } from '../../api.js';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const flights = ref([]);
 const airlines = ref([]);
 const aircraft = ref([]);
 const airports = ref([]);
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(flights);
 
 const errorMessage = ref('');
 const successMessage = ref('');
@@ -254,7 +257,7 @@ onMounted(loadData);
                         <tr v-if="flights.length === 0">
                             <td colspan="10" class="admin-empty-row">No flights found.</td>
                         </tr>
-                        <tr v-for="flight in flights" :key="flight._id">
+                        <tr v-for="flight in pagedItems" :key="flight._id">
                             <td><strong>{{ flight.flightNumber }}</strong></td>
                             <td>{{ getLabel(airlines, flight.airlineId) }}</td>
                             <td>
@@ -285,6 +288,12 @@ onMounted(loadData);
                         </tr>
                     </tbody>
                 </table>
+                <AdminPagination
+                    :current-page="currentPage"
+                    :total-pages="totalPages"
+                    :page-numbers="pageNumbers"
+                    @go-to-page="goToPage"
+                />
             </div>
         </div>
 
