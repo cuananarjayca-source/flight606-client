@@ -392,7 +392,7 @@ onMounted(() => {
                 <div class="fc-price-amt mt-1" style="font-size:1.2rem; font-weight:700;">
                   ₱{{ booking.totalAmount?.toLocaleString() }}
                 </div>
-                <div class="fc-price-note text-muted" style="font-size:0.75rem;">
+                <div class="fc-price-note text-warning" style="font-size:0.75rem;">
                   Ref: {{ booking.bookingReference }}
                 </div>
                 <div v-if="booking.checkedIn" class="fc-price-note text-success" style="font-size:0.75rem;">
