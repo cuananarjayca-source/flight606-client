@@ -56,8 +56,15 @@ function closeProfileMenu() {
 }
 
 function doLogout() {
+  // 1. Clear the physical browser storage
+  localStorage.removeItem('token');
+  localStorage.removeItem('isAdmin'); 
+
+  // 2. Clear your application state and close UI menus
   globalStore.getUserDetails(null)
   profileMenuOpen.value = false
+  
+  // 3. Redirect the user
   router.push({ name: 'Home' })
 }
 </script>

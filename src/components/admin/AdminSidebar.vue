@@ -12,9 +12,16 @@ const globalStore = useGlobalStore();
 
 
 function logout() {
+    // 1. Remove both items from localStorage
     localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
+    
+    // 2. Clear your application's global state
     globalStore.user.token = null;
     globalStore.user.email = null;
+    globalStore.user.isAdmin = null;
+    
+    // 3. Redirect the user
     router.push('/login');
 }
 </script>
