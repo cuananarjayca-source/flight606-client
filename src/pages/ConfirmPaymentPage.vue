@@ -244,6 +244,10 @@ async function confirmAndPay() {
     isProcessing.value = false
   }
 }
+
+function routerBack() {
+  router.back()
+}
 </script>
 
 <template>
@@ -256,6 +260,7 @@ async function confirmAndPay() {
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item"><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
               <li class="breadcrumb-item"><RouterLink :to="{ name: 'SearchFlights' }">Flights</RouterLink></li>
+              <li class="breadcrumb-item"><a href="#" @click.prevent="routerBack">Booking Flights</a></li>
               <li class="breadcrumb-item active">Confirm Payment</li>
             </ol>
           </nav>

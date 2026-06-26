@@ -101,13 +101,14 @@ async function cancelBooking(booking) {
 onMounted(() => {
   if (isLoggedIn.value) loadMyBookings()
 })
+
 </script>
 
 <template>
   <div class="page active">
     <div class="inner-page">
       <div class="pt-5">
-        <div class="container" style="max-width:900px;">
+        <div class="container mt-5" style="max-width:900px;">
 
           <nav class="theme-breadcrumb" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">

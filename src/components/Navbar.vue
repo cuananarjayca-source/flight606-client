@@ -1,35 +1,50 @@
 <script setup>
-import { ref, inject, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, inject, computed, onMounted, onUnmounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useGlobalStore } from '../stores/global.js'
 
-const theme       = inject('theme')
+const theme = inject('theme')
 const toggleTheme = inject('toggleTheme')
 const isMenuOpen = ref(false)
-
 const store = useGlobalStore()
 const router = useRouter()
+const route = useRoute() 
 const globalStore = useGlobalStore()
 
+// 1. Detect if we are on the checkout route
+const isCheckoutPage = computed(() => route.path.startsWith('/checkout'))
+const isMyBookingPage = computed(() => route.path.startsWith('/my-bookings'))
+
 // ── Scroll state ───────────────────────────────────
-const isScrolled      = ref(false)
+const isScrolled = ref(false)
 const profileMenuOpen = ref(false)
 
+// 2. Updated to force scrolling state to 'true' if on checkout
 function handleScroll() {
-  isScrolled.value = window.scrollY > 40
+  if (isCheckoutPage.value || isMyBookingPage.value) {
+    isScrolled.value = true
+  } else {
+    isScrolled.value = window.scrollY > 40
+  }
 }
+
+watch(
+  () => route.path,
+  () => {
+    handleScroll()
+  }
+)
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
-  handleScroll()
+  handleScroll() // Evaluates immediately on load
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-// ── Auth state, derived directly from the store so a page refresh ─
-// ── never disagrees with the actual session (see App.vue) ────────
+// ── Auth state ─────────────────────────────────────
 const isLoggedIn = computed(() => !!globalStore.user.token)
 
 function toggleProfileMenu() {
@@ -46,6 +61,7 @@ function doLogout() {
   router.push({ name: 'Home' })
 }
 </script>
+
 
 <template>
   <nav
