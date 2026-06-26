@@ -148,6 +148,19 @@ function logout() {
     background: rgba(255, 77, 77, 0.08);
 }
 
+/* Ensure links are readable in light mode */
+[data-theme="light"] .nav-link {
+  color: #2d3748 !important; /* Dark slate gray */
+}
+
+/* Optional: Make the active link look highlighted */
+[data-theme="light"] .nav-link.active,
+[data-theme="light"] .nav-link:hover {
+  color: #b45309 !important; /* Gold/Amber to match your branding */
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+
 /* ── Light theme overrides ──────────────────────────────────────────────────
    Your app sets data-theme="light" on a wrapper <div> (not on <html>), so we
    use :deep() to escape Vue's scoped-CSS boundary and target that ancestor div.
