@@ -313,16 +313,3 @@ function removeMcRow(id) {
 
   </div>
 </template>
-
-<style scoped>
-/* This forces production builds to apply these styles specifically to this element */
-:deep(.booking-widget), 
-.booking-widget {
-  background: rgba(255, 255, 255, 0.12) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45) !important;
-}
-</style>
