@@ -718,48 +718,45 @@ h1, h2, h3, h4, h5, h6 {
 .dot:not(.active) { width: 16px; }
 
 /* ════════════════════════════════════════════════════
-   BOOKING WIDGET — Premium Calendar + Glassmorphism
+   BOOKING WIDGET — Frosted Glass Container
 ════════════════════════════════════════════════════ */
 .booking-widget {
   width: 100%;
   max-width: 1000px;
   position: relative;
   overflow: visible; /* allows calendar popups to overflow */
-  border-radius: 16px; /* slightly wider radius for a modern feel */
-  
-  /* 1. Clear Glass Base: Neutral low opacity completely eliminates the brown muddy tint */
-  background: rgba(255, 255, 255, 0.05); 
-  
-  /* 2. Deep Frosting: Higher blur with saturation boosts the background photo vibrance */
-  backdrop-filter: blur(25px) saturate(150%);
-  -webkit-backdrop-filter: blur(25px) saturate(150%);
-  
-  /* 3. Razor-Sharp Border: Crisp, ultra-thin white line to frame the widget over dark scenery */
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  
-  /* 4. Multi-Layered Shadows: Deep dark-room depth mixed with a sharp inner edge light */
+  border-radius: 16px;
+
+  /* Frosted glass effect */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
   box-shadow:
-    0 30px 70px rgba(0, 0, 0, 0.35), /* Ambient depth over the background */
-    0 10px 30px rgba(0, 0, 0, 0.2),  /* Mid-level structural separation */
-    inset 0 1px 0 rgba(255, 255, 255, 0.25), /* Premium top edge rim light reflection */
-    inset 0 10px 20px rgba(255, 255, 255, 0.02); /* Soft inner facial sheen */
-    
-  /* 5. Fluid Animation: Uses a premium cinematic easing curve */
+    0 30px 70px rgba(0, 0, 0, 0.35),
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 10px 20px rgba(255, 255, 255, 0.02);
+
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Light Theme Polish: Keeps high visibility without looking washed out */
+/* Light theme: same frosted formula, but with more opacity in the tint.
+   Your widget still sits over the dark hero-photo overlay in light mode,
+   and light-mode text is black (--text-10: #000) — at 0.1 opacity the
+   underlying dark photo bleeds through and black text loses contrast.
+   Bumping the tint keeps it frosted while keeping text readable. */
 [data-theme="light"] .booking-widget {
-  background: rgba(255, 255, 255, 0.45); 
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
     0 25px 60px rgba(31, 38, 135, 0.07),
     0 8px 20px rgba(31, 38, 135, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-
 
 
 /* ── Widget Header ───────────────────────────────── */
