@@ -282,6 +282,10 @@ function legLabel(flight, i) {
     const prefix = flightsMap.value.length > 1 ? (i === 0 ? 'Outbound · ' : 'Return · ') : '';
     return `${prefix}${origin} → ${dest} · ${dateLabel} · ${flight.flightNumber || ''}`;
 }
+
+function routerBack() {
+  router.back()
+}
 </script>
 
 <template>
@@ -307,22 +311,19 @@ function legLabel(flight, i) {
                 <button class="btn btn-sm btn-outline-danger" @click="router.push({ name: 'SearchFlights' })">Search again</button>
             </div>
 
-            <div v-else class="row g-4">
+            <div v-else class="row g-4 mt-5">
                 <!-- ── Left column ────────────────────────────────── -->
                 <div class="col-lg-8">
 
                     <!-- Breadcrumbs -->
-                    <nav aria-label="breadcrumb" class="mb-4">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><RouterLink to="/">Home</RouterLink></li>
-                            <li class="breadcrumb-item"><RouterLink to="/search">Flights</RouterLink></li>
-                            <!--
-                                FIX 3: `text-dark` is Bootstrap's #212529.
-                                On dark backgrounds this is near-invisible.
-                                Replaced with bf-text-main → var(--text).
-                            -->
-                            <li class="breadcrumb-item active fw-bold bf-text-main">Booking Details</li>
-                        </ol>
+                    <nav class="theme-breadcrumb mb-4" aria-label="breadcrumb">
+                      <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <RouterLink :to="{ name: 'Home' }">Home</RouterLink>
+                        </li>
+                        <li class="breadcrumb-item active"><a href="#" @click.prevent="routerBack">Flights</a></li>
+                        <li class="breadcrumb-item active">Booking Details</li>
+                      </ol>
                     </nav>
 
                     <!-- Selected Flights card -->
@@ -596,7 +597,7 @@ function legLabel(flight, i) {
 
                 <!-- ── Booking Summary sidebar ──────────────────── -->
                 <div class="col-lg-4">
-                    <div class="card bf-card shadow-sm border-0 position-sticky" style="top: 2rem;">
+                    <div class="card bf-card shadow-sm border-0 position-sticky" style="top: 5rem;">
                         <!--
                             FIX 12 (THE BIG ONE): `bg-dark text-white` is completely
                             hardcoded — always renders as a black header with white text,
