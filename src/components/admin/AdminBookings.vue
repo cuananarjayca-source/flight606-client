@@ -144,11 +144,13 @@ onMounted(fetchBookings);
         <div class="ps-body">
 
             <!-- Stats -->
-            <div class="admin-stats-row" style="grid-template-columns: repeat(4,1fr);">
+            <!-- CHANGE THIS LINE -->
+            <div class="admin-stats-row"> <!-- ◄ Removed the inline grid style -->
                 <div class="admin-stat-card">
                     <div class="admin-stat-number">{{ stats.total }}</div>
                     <div class="admin-stat-label">Total</div>
                 </div>
+
                 <div class="admin-stat-card">
                     <div class="admin-stat-number" style="color: var(--gold);">{{ stats.pending }}</div>
                     <div class="admin-stat-label">Pending</div>

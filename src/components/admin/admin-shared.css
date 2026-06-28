@@ -133,53 +133,6 @@
 
 .admin-table tbody tr:hover td { background: var(--gold-dim); }
 
-.admin-pagination {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 18px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-dim);
-}
-
-.admin-pagination .pagination-btn {
-  border: 1px solid var(--border-dim);
-  border-radius: 6px;
-  background: var(--glass-bg-lt);
-  color: var(--text);
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.admin-pagination .pagination-btn:hover:not(:disabled) {
-  border-color: var(--gold);
-  background: var(--gold-dim);
-  color: var(--gold);
-}
-
-.admin-pagination .pagination-btn.active {
-  border-color: var(--gold);
-  background: var(--gold);
-  color: var(--ink-on-gold);
-}
-
-.admin-pagination .pagination-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.admin-pagination .pagination-ellipsis {
-  color: var(--muted);
-  font-size: 0.82rem;
-  padding: 8px 10px;
-}
-
 .admin-empty-row {
   text-align: center;
   color: var(--muted);
@@ -818,4 +771,50 @@
 [data-theme="light"] {
     --sidebar-link:       #374151;        /* slate-700 — clear on white bg */
     --sidebar-link-hover: #111827;        /* slate-900 — strong on hover   */
+}
+
+/* ══════════════════════════════════════════════════
+   ADMIN DASHBOARD SHELL — .admin-layout / .admin-main
+   Mobile-first: stacked by default; side-by-side flex
+   from 992px up. Breakpoint matches AdminSidebar.vue's
+   own drawer breakpoint (991/992px) so the shell and
+   the sidebar switch layouts at the same point.
+   ══════════════════════════════════════════════════ */
+
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.admin-main {
+  width: 100%;
+  min-width: 0; /* required so .admin-table-wrap's overflow-x:auto can actually engage */
+}
+
+@media (min-width: 992px) {
+  .admin-layout {
+    flex-direction: row;
+    align-items: stretch;   /* lets the sidebar's gold border-right run full height, not just nav height */
+    gap: 32px;
+  }
+
+  .admin-main {
+    flex: 1 1 0%;
+    width: auto;
+    padding-top: 4px;       /* matches .admin-sidebar's padding-top so both columns share the same vertical start point */
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-stats-row { 
+    grid-template-columns: repeat(2, 1fr); /* Automatically wraps into a clean 2x2 grid */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Optional: Stack into a single row on ultra-narrow phones if text still pinches */
+  .admin-stat-card {
+    padding: 12px;
+  }
 }
