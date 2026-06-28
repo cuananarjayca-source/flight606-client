@@ -11,9 +11,9 @@
 [![Node.js](https://img.shields.io/badge/backend-Node.js%20%2B%20Express-339933?logo=node.js)](https://nodejs.org)
 [![MongoDB](https://img.shields.io/badge/database-MongoDB-47A248?logo=mongodb)](https://www.mongodb.com)
 [![Bootstrap](https://img.shields.io/badge/frontend-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com)
-[![Vue.js](https://shields.io)](https://vuejs.org)
-[![Vite](https://shields.io)](https://vite.dev)
-[![Pinia](https://shields.io)](https://pinia.vuejs.org)
+[![Vue.js](https://img.shields.io/badge/framework-Vue.js%203-4FC08D?logo=vue.js)](https://vuejs.org)
+[![Vite](https://img.shields.io/badge/build-Vite-646CFF?logo=vite)](https://vite.dev)
+[![Pinia](https://img.shields.io/badge/state-Pinia-F7C948?logo=pinia)](https://pinia.vuejs.org)
 [![Figma](https://img.shields.io/badge/design-Figma-F24E1E?logo=figma)](https://www.figma.com/design/kgJUpm3z5jK5Ya3jaDYiQ8/APRIL-PROJECT?node-id=37-6284&t=KInoG9fmcZiqOFzD-0)
 
 
