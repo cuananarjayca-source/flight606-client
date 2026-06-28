@@ -16,7 +16,6 @@ const nextPage = () => emit('go-to-page', Math.min(props.totalPages, props.curre
 </script>
 
 <template>
-  test
   <div class="admin-pagination" v-if="totalPages > 1">
     <button
       class="pagination-btn icon-btn"
