@@ -198,6 +198,30 @@ function calcTravelTime(departure, arrival) {
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
   return `${hours}h ${minutes}m`
 }
+
+// Generate a 7-day window centered on the currently selected departure date
+const dateRange = computed(() => {
+  if (!sfDate.value) return []
+  const center = new Date(sfDate.value + 'T00:00:00')
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(center)
+    d.setDate(center.getDate() + (i - 3))
+    const iso = d.toISOString().split('T')[0]
+    return {
+      iso,
+      label: d.toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }),
+      isPast: d < today
+    }
+  })
+})
+
+// Switch the active date and immediately re-run the search
+function selectDate(isoDate) {
+  sfDate.value = isoDate
+  handleSearch()
+}
 </script>
 
 <template>
@@ -287,11 +311,17 @@ function calcTravelTime(departure, arrival) {
             </div>
             
             <div class="date-scroll-row">
-              <span class="date-arrow">‹</span>
+              <span class="date-arrow" @click="selectDate(dateRange[0].iso)">‹</span>
               <div class="date-chips">
-                <span class="date-chip active">{{ formatDateLabel(sfDate) || 'Selected Date' }}</span>
+                <span
+                  v-for="day in dateRange"
+                  :key="day.iso"
+                  class="date-chip"
+                  :class="{ active: day.iso === sfDate, past: day.isPast }"
+                  @click="!day.isPast && selectDate(day.iso)"
+                >{{ day.label }}</span>
               </div>
-              <span class="date-arrow">›</span>
+              <span class="date-arrow" @click="selectDate(dateRange[6].iso)">›</span>
             </div>
 
             <div v-if="!flightResultsPerSegment[0] || flightResultsPerSegment[0].length === 0" class="alert alert-warning text-center my-3">
@@ -400,3 +430,33 @@ function calcTravelTime(departure, arrival) {
     </div>
   </div>
 </template>
+
+<style scoped>
+
+.date-scroll-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 24px;             /* Clean margin framing on the edges */
+  box-sizing: border-box;
+}
+
+.date-chips {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;                 /* Forces the chips container to span the width */
+  margin: 0 20px;               /* Adds a healthy gap between the chips and arrows */
+  gap: 8px;                     /* Spacing between adjacent chips */
+}
+
+.date-chip {
+  flex: 1;                      /* Crucial: forces every chip to grow and share equal width */
+  text-align: center;           /* Centers the date text inside its expanded chip box */
+  padding: 12px 8px;            /* Increased vertical padding for a taller, premium button touch target */
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;          /* Prevents text from awkwardly wrapping into two lines */
+}
+
+</style>
