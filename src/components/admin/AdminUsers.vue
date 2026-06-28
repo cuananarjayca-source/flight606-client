@@ -1,25 +1,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { getAllUsers, updateUserAsAdmin, deactivateUser, reactivateUser } from '../../api.js';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const users = ref([]);
-const isLoading = ref(true);
-const pageError = ref(null);
-
-// Search/filter
 const searchQuery = ref('');
 const filterStatus = ref('all');
-
-// Edit modal
-const showEditModal = ref(false);
-const editTarget = ref(null);
-const editForm = ref({ firstName: '', lastName: '', email: '', phone: '', gender: '', isAdmin: false });
-const isSaving = ref(false);
-const editError = ref(null);
-
-// Action feedback
-const actionSuccess = ref(null);
-const actionError = ref(null);
 
 const filteredUsers = computed(() => {
     let list = users.value;
@@ -39,6 +26,23 @@ const filteredUsers = computed(() => {
 
     return list;
 });
+
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(filteredUsers);
+const isLoading = ref(true);
+const pageError = ref(null);
+
+// Search/filter
+
+// Edit modal
+const showEditModal = ref(false);
+const editTarget = ref(null);
+const editForm = ref({ firstName: '', lastName: '', email: '', phone: '', gender: '', isAdmin: false });
+const isSaving = ref(false);
+const editError = ref(null);
+
+// Action feedback
+const actionSuccess = ref(null);
+const actionError = ref(null);
 
 const fetchUsers = async () => {
     isLoading.value = true;
@@ -182,7 +186,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in filteredUsers" :key="user._id" :class="{ 'row-inactive': !user.isActive }">
+            <tr v-for="user in pagedItems" :key="user._id" :class="{ 'row-inactive': !user.isActive }">
               <td>{{ user.firstName }} {{ user.lastName }}</td>
               <td class="muted">{{ user.email }}</td>
               <td class="muted">{{ user.phone || '—' }}</td>
@@ -223,6 +227,12 @@ onMounted(() => {
             </tr>
           </tbody>
         </table>
+        <AdminPagination
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          :page-numbers="pageNumbers"
+          @go-to-page="goToPage"
+        />
       </div>
     </div>
 

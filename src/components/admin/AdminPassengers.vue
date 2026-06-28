@@ -1,14 +1,37 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { getAllPassengers, adminUpdatePassenger, activatePassenger, deactivatePassenger } from '../../api.js';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const passengers = ref([]);
-const isLoading = ref(true);
-const pageError = ref(null);
-
-// Search/filter
 const searchQuery = ref('');
 const filterStatus = ref('all');
+
+const filteredPassengers = computed(() => {
+    let list = passengers.value;
+
+    if (filterStatus.value === 'active') list = list.filter(p => p.isActive);
+    else if (filterStatus.value === 'inactive') list = list.filter(p => !p.isActive);
+    else if (filterStatus.value === 'guest') list = list.filter(p => !p.userId);
+    else if (filterStatus.value === 'registered') list = list.filter(p => !!p.userId);
+
+    if (searchQuery.value.trim()) {
+        const q = searchQuery.value.toLowerCase();
+        list = list.filter(p =>
+            p.firstName?.toLowerCase().includes(q) ||
+            p.lastName?.toLowerCase().includes(q) ||
+            p.passportNumber?.toLowerCase().includes(q) ||
+            p.nationality?.toLowerCase().includes(q) ||
+            p.email?.toLowerCase().includes(q)
+        );
+    }
+
+    return list;
+});
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(filteredPassengers);
+const isLoading = ref(true);
+const pageError = ref(null);
 
 // Edit modal
 const showEditModal = ref(false);
@@ -43,28 +66,6 @@ const isExpired = (expiryDate) => {
     if (!expiryDate) return false;
     return new Date(expiryDate) < new Date();
 };
-
-const filteredPassengers = computed(() => {
-    let list = passengers.value;
-
-    if (filterStatus.value === 'active') list = list.filter(p => p.isActive);
-    else if (filterStatus.value === 'inactive') list = list.filter(p => !p.isActive);
-    else if (filterStatus.value === 'guest') list = list.filter(p => !p.userId);
-    else if (filterStatus.value === 'registered') list = list.filter(p => !!p.userId);
-
-    if (searchQuery.value.trim()) {
-        const q = searchQuery.value.toLowerCase();
-        list = list.filter(p =>
-            p.firstName?.toLowerCase().includes(q) ||
-            p.lastName?.toLowerCase().includes(q) ||
-            p.passportNumber?.toLowerCase().includes(q) ||
-            p.nationality?.toLowerCase().includes(q) ||
-            p.email?.toLowerCase().includes(q)
-        );
-    }
-
-    return list;
-});
 
 const fetchPassengers = async () => {
     isLoading.value = true;
@@ -209,7 +210,7 @@ onMounted(() => {
             <tr v-if="filteredPassengers.length === 0">
               <td colspan="8" class="admin-empty-row">No passengers match your current filters.</td>
             </tr>
-            <tr v-for="passenger in filteredPassengers" :key="passenger._id" :class="{ 'row-inactive': !passenger.isActive }">
+            <tr v-for="passenger in pagedItems" :key="passenger._id" :class="{ 'row-inactive': !passenger.isActive }">
               <td>
                 {{ passenger.firstName }} {{ passenger.lastName }}
                 <span class="cell-sub">{{ passenger.gender || '—' }}</span>
@@ -252,6 +253,12 @@ onMounted(() => {
             </tr>
           </tbody>
         </table>
+        <AdminPagination
+          :current-page="currentPage"
+          :total-pages="totalPages"
+          :page-numbers="pageNumbers"
+          @go-to-page="goToPage"
+        />
       </div>
 
     </div>

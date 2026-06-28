@@ -1,14 +1,27 @@
 <script setup>
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useGlobalStore } from '../../stores/global';
+
+const theme = inject('theme')
+const toggleTheme = inject('toggleTheme')
 
 const router = useRouter();
 const globalStore = useGlobalStore();
 
+
+
 function logout() {
+    // 1. Remove both items from localStorage
     localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
+    
+    // 2. Clear your application's global state
     globalStore.user.token = null;
     globalStore.user.email = null;
+    globalStore.user.isAdmin = null;
+    
+    // 3. Redirect the user
     router.push('/login');
 }
 </script>
@@ -17,6 +30,20 @@ function logout() {
     <nav class="admin-sidebar">
 
         <p class="sidebar-section-label">Operations</p>
+            <div class="nav-actions d-flex align-items-center py-2">
+                <!-- Theme toggle -->
+                <button
+                    class="theme-toggle"
+                    style="width: 40px; height: 40px;"
+                    @click="toggleTheme"
+                    aria-label="Toggle light/dark mode"
+                    title="Toggle light/dark mode"
+                >
+                    <i class="ti ti-moon icon-dark"></i>
+                    <i class="ti ti-sun icon-light"></i>
+                </button>
+                <p class="sidebar-theme-toggle">Theme Toggle</p>
+            </div>
         <div class="profile-nav">
             <RouterLink class="nav-link" :to="{ name: 'AdminFlights' }">
                 <i class="ti ti-plane"></i>
@@ -89,6 +116,16 @@ function logout() {
 }
 
 .sidebar-section-label {
+    font-family: var(--font-sans);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 6px 14px;
+}
+
+.sidebar-theme-toggle {
     font-family: var(--font-sans);
     font-size: 0.58rem;
     font-weight: 700;

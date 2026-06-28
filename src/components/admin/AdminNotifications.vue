@@ -1,15 +1,31 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { getAllNotifications, deactivateNotification } from '../../api.js';
+import AdminPagination from './AdminPagination.vue';
+import { usePagination } from './pagination.js';
 
 const notifications = ref([]);
-const isLoading = ref(true);
-const pageError = ref(null);
-
 const searchQuery = ref('');
 const filterType = ref('all');
 const filterStatus = ref('all');
 const filterRead = ref('all');
+
+const filteredNotifications = computed(() => {
+    let list = notifications.value;
+    if (filterType.value !== 'all') list = list.filter(n => n.type === filterType.value);
+    if (filterStatus.value === 'active') list = list.filter(n => n.isActive);
+    else if (filterStatus.value === 'inactive') list = list.filter(n => !n.isActive);
+    if (filterRead.value === 'read') list = list.filter(n => n.isRead);
+    else if (filterRead.value === 'unread') list = list.filter(n => !n.isRead);
+    if (searchQuery.value.trim()) {
+        const q = searchQuery.value.toLowerCase();
+        list = list.filter(n => n.message?.toLowerCase().includes(q) || n.guestEmail?.toLowerCase().includes(q) || n.userId?.toLowerCase().includes(q));
+    }
+    return list;
+});
+const { currentPage, totalPages, pagedItems, pageNumbers, goToPage } = usePagination(filteredNotifications);
+const isLoading = ref(true);
+const pageError = ref(null);
 
 const actionSuccess = ref(null);
 const actionError = ref(null);
@@ -26,20 +42,6 @@ const TYPE_META = {
 const getTypeMeta = (type) => TYPE_META[type] || { label: type, icon: 'ti-bell', badgeClass: 'badge-muted' };
 
 const uniqueTypes = computed(() => [...new Set(notifications.value.map(n => n.type))]);
-
-const filteredNotifications = computed(() => {
-    let list = notifications.value;
-    if (filterType.value !== 'all') list = list.filter(n => n.type === filterType.value);
-    if (filterStatus.value === 'active') list = list.filter(n => n.isActive);
-    else if (filterStatus.value === 'inactive') list = list.filter(n => !n.isActive);
-    if (filterRead.value === 'read') list = list.filter(n => n.isRead);
-    else if (filterRead.value === 'unread') list = list.filter(n => !n.isRead);
-    if (searchQuery.value.trim()) {
-        const q = searchQuery.value.toLowerCase();
-        list = list.filter(n => n.message?.toLowerCase().includes(q) || n.guestEmail?.toLowerCase().includes(q) || n.userId?.toLowerCase().includes(q));
-    }
-    return list;
-});
 
 const stats = computed(() => ({
     total:    notifications.value.length,
@@ -168,7 +170,7 @@ onMounted(fetchNotifications);
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="n in filteredNotifications" :key="n._id" :class="{ 'row-inactive': !n.isActive }">
+                        <tr v-for="n in pagedItems" :key="n._id" :class="{ 'row-inactive': !n.isActive }">
                             <td>
                                 <span class="admin-badge" :class="getTypeMeta(n.type).badgeClass">
                                     <i class="ti" :class="getTypeMeta(n.type).icon"></i>
@@ -208,6 +210,12 @@ onMounted(fetchNotifications);
                         </tr>
                     </tbody>
                 </table>
+                <AdminPagination
+                    :current-page="currentPage"
+                    :total-pages="totalPages"
+                    :page-numbers="pageNumbers"
+                    @go-to-page="goToPage"
+                />
             </div>
         </div>
 
