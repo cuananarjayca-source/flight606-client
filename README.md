@@ -151,7 +151,7 @@ For issues or questions:
 
 - **GitHub Issues:** [Open an issue](https://github.com/cuananarjayca-source/flight606-client)
 - **Email:** cuananarjay.ac@gmail.com
-- **Trello Board:** TBD (link to be added)
+- **Trello Board:** TBD (https://trello.com/b/chEYCUpN/phase-1-airline-booking-system)
 
 Please include your browser, OS, and a description of the problem when reporting bugs.
 
