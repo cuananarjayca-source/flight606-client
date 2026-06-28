@@ -12,8 +12,6 @@
 [![MongoDB](https://img.shields.io/badge/database-MongoDB-47A248?logo=mongodb)](https://www.mongodb.com)
 [![Bootstrap](https://img.shields.io/badge/frontend-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com)
 [![Vue.js](https://shields.io)](https://vuejs.org)
-[![Vite](https://shields.io)](https://vite.dev)
-[![Pinia](https://shields.io)](https://vuejs.org)
 [![Figma](https://img.shields.io/badge/design-Figma-F24E1E?logo=figma)](https://www.figma.com/design/kgJUpm3z5jK5Ya3jaDYiQ8/APRIL-PROJECT?node-id=37-6284&t=KInoG9fmcZiqOFzD-0)
 
 ---
