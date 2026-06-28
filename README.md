@@ -1,5 +1,7 @@
 # ✈️ Flight 606 — Airline Booking System
 
+![Flight-Booking-System](/public/Homepage.png)
+
 > A premium, full-stack web application for flight search, seat selection, passenger management, and booking confirmation — built with the "Flight 606" luxury aviation aesthetic.
 
 ---
@@ -9,7 +11,9 @@
 [![Node.js](https://img.shields.io/badge/backend-Node.js%20%2B%20Express-339933?logo=node.js)](https://nodejs.org)
 [![MongoDB](https://img.shields.io/badge/database-MongoDB-47A248?logo=mongodb)](https://www.mongodb.com)
 [![Bootstrap](https://img.shields.io/badge/frontend-Bootstrap%205-7952B3?logo=bootstrap)](https://getbootstrap.com)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Vue.js](https://shields.io)](https://vuejs.org)
+[![Vite](https://shields.io)](https://vite.dev)
+[![Pinia](https://shields.io)](https://vuejs.org)
 [![Figma](https://img.shields.io/badge/design-Figma-F24E1E?logo=figma)](https://www.figma.com/design/kgJUpm3z5jK5Ya3jaDYiQ8/APRIL-PROJECT?node-id=37-6284&t=KInoG9fmcZiqOFzD-0)
 
 ---
@@ -144,8 +148,8 @@ Default Admin Credentials (development only):
 
 For issues or questions:
 
-- **GitHub Issues:** [Open an issue](https://github.com/<your-org>/flight-606/issues)
-- **Email:** b606.group2@example.com
+- **GitHub Issues:** [Open an issue](https://github.com/cuananarjayca-source/flight606-client)
+- **Email:** cuananarjay.ac@gmail.com
 - **Trello Board:** TBD (link to be added)
 
 Please include your browser, OS, and a description of the problem when reporting bugs.
@@ -187,13 +191,13 @@ Contributions from team members are welcome! Here's how to get started:
 **1. Fork and clone the repo**
 
 ```bash
-git clone https://github.com/<your-org>/flight-606.git
+git clone https://github.com/cuananarjayca-source/flight606-client.git
 ```
 
 **2. Create a feature branch**
 
 ```bash
-git checkout -b feature/your-feature-name
+git checkout -b main
 ```
 
 **3. Make your changes and commit**
@@ -240,26 +244,22 @@ Open a PR against the `main` branch with a clear description of the changes.
 
 | Role | Contributor |
 |:---|:---|
-| Project Lead | B606 Group 2 |
-| Frontend Design | B606 Group 2 |
-| Backend Development | B606 Group 2 |
-| Database Design | B606 Group 2 |
-| QA / API Testing | B606 Group 2 |
+| Project Lead | Rojan Pilar |
+| Frontend Design | Arjay Cuanan, Rojan Pilar, Nathaniel Medina |
+| Backend Development | Maiki Raval |
+| Database Design | Nathaniel Medina |
+| QA / API Testing | Arjay Cuanan, Maiki Raval |
+| Technical Specification Design | Arjay Cuanan, Nathaniel Medina, Maiki Raval | 
 
 Special thanks to:
 - **Bootstrap** — for the responsive grid foundation
+- **Vue.js** - for structured SPA Web
 - **MongoDB** — for the flexible document model that made nested booking data elegant
 - **Figma** — for the design system collaboration tools
 - **Netlify** — for frictionless frontend deployment
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
 
 Copyright (c) 2026 B606 Group 2 MCP Project
 
@@ -270,7 +270,7 @@ and/or sell copies of the Software, subject to the standard MIT conditions.
 
 ---
 
-## 📌 Project Status
+## 📌 Project Status - In progress
 
 **🟢 Active Development** — The project is currently in its final integration phase ahead of the academic demo. Core features are deployed and functional at the live link below.
 
