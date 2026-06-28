@@ -26,7 +26,7 @@
 The platform is designed around a premium "Flight 606" brand identity: a dark, editorial aesthetic anchored by golden-sand accents that evoke business-class travel.
 
 **Reference Links:**
-- 🌐 [Live Demo](https://heroic-vacherin-4f50fb.netlify.app)
+- 🌐 [Live Demo](https://heroic-vacherin-4f50fb.netlify.app) (https://flight606-client-six.vercel.app/)
 - 🎨 [Figma Mockups](https://www.figma.com/design/kgJUpm3z5jK5Ya3jaDYiQ8/APRIL-PROJECT?node-id=37-6284&t=KInoG9fmcZiqOFzD-0)
 - 📐 [System Blueprint / ERD](https://drive.google.com/file/d/1k1MKMJo1E8MnAvm5vZh1KCKPLOtEL_ba/view)
 
