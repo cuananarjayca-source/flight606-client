@@ -81,10 +81,8 @@ function logout() {
       <i class="ti ti-x"></i>
     </button>
 
-    <p class="sidebar-section-label">Operations</p>
-
-    <!-- Theme toggle -->
-    <div class="nav-actions d-flex align-items-center">
+        <!-- Theme toggle -->
+    <div class="nav-actions d-flex align-items-center py-2">
       <button
         class="theme-toggle"
         @click="toggleTheme"
@@ -96,6 +94,10 @@ function logout() {
       </button>
       <p class="sidebar-theme-toggle">Theme Toggle</p>
     </div>
+
+    <div class="pn-sep"></div>
+    
+    <p class="sidebar-section-label">Operations</p>
 
     <div class="profile-nav">
       <RouterLink class="nav-link" :to="{ name: 'AdminFlights' }" @click="navigate">
@@ -188,7 +190,7 @@ function logout() {
 
 .sidebar-theme-toggle {
   font-family: var(--font-sans);
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--muted);
