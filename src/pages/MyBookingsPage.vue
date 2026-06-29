@@ -14,6 +14,7 @@ import {
   getPassengerById,
   getSeatsByFlight,
   getFlightById,
+  getAirportById,
 } from '../api.js'
 
 const globalStore = useGlobalStore()
@@ -62,6 +63,33 @@ const rebookDestId      = ref('')
 const selectedSeatObj = computed(() =>
   rebookSeats.value.find(s => s._id === selectedSeatId.value) || null
 )
+
+const airportCache = ref({})
+function airportId(raw) {
+  if (!raw) return null
+  if (typeof raw === 'string') return raw
+  if (raw._id) return String(raw._id)
+  return String(raw)
+}
+async function fetchAirport(raw) {
+  const id = airportId(raw)
+  if (!id) return null
+  if (airportCache.value[id]) return airportCache.value[id]
+  try {
+    const res = await getAirportById(id)
+    const airport = res?.result ?? res ?? null
+    if (airport && airport._id) airportCache.value[id] = airport
+    return airport
+  } catch {
+    return null
+  }
+}
+function airportLabel(raw) {
+  const id = airportId(raw)
+  const airport = id ? airportCache.value[id] : null
+  if (!airport) return id ? '…' : '—'
+  return airport.city ? `${airport.city} (${airport.iataCode || ''})`.trim() : (airport.iataCode || airport.name || '—')
+}
 
 async function openRebookModal(booking) {
   rebookTarget.value     = booking
@@ -218,11 +246,6 @@ function isUpcoming(booking) {
 
 // ── Enrich a single booking with passenger + seat data ────────────────────
 async function enrichBooking(b, passengerMap = new Map()) {
-  // ── Self-heal an unpopulated/shallow flightId ────────────────────────
-  // getMyBookingsUser/Guest don't reliably deep-populate flightId, which is
-  // why cards were showing "DEP"/"ARR" placeholders and the rebook search
-  // threw "Origin Airport ID required" — origin/destAirportId were missing
-  // because flightId was just a raw ObjectId string, not the populated doc.
   try {
     const flightRef   = b.flightId
     const flightId     = (flightRef && typeof flightRef === 'object') ? flightRef._id : flightRef
@@ -235,6 +258,13 @@ async function enrichBooking(b, passengerMap = new Map()) {
     }
   } catch {
     // leave b.flightId as-is; template falls back to 'DEP'/'ARR'/'—'
+  }
+
+  if (b.flightId) {
+    await Promise.all([
+      fetchAirport(b.flightId.originAirportId),
+      fetchAirport(b.flightId.destinationAirportId)
+    ])
   }
 
   try {
@@ -378,7 +408,7 @@ onMounted(() => { if (isLoggedIn.value) loadBookings() })
                 <div class="bk-endpoint">
                   <div class="bk-time">{{ formatTime(booking.flightId?.departureTime) }}</div>
                   <div class="bk-airport">
-                    {{ booking.flightId.originAirportId?.city || booking.flightId?.originAirportId?.iataCode || 'DEP' }}
+                    {{ airportLabel(booking.flightId?.originAirportId) }}
                   </div>
                   <div class="bk-date">{{ formatDateLabel(booking.flightId?.departureTime) }}</div>
                 </div>
@@ -396,7 +426,7 @@ onMounted(() => { if (isLoggedIn.value) loadBookings() })
                 <div class="bk-endpoint bk-endpoint--right">
                   <div class="bk-time">{{ formatTime(booking.flightId?.arrivalTime) }}</div>
                   <div class="bk-airport">
-                    {{ booking.flightId?.destinationAirportId?.city || booking.flightId?.destinationAirportId?.iataCode || 'ARR' }}
+                    {{ airportLabel(booking.flightId?.destinationAirportId) }}
                   </div>
                   <div class="bk-date">{{ formatDateLabel(booking.flightId?.arrivalTime) }}</div>
                 </div>
@@ -493,13 +523,14 @@ onMounted(() => { if (isLoggedIn.value) loadBookings() })
                   <div class="bk-timebar-block">
                     <span class="bk-detail-label">Departure</span>
                     <span class="bk-timebar-time">{{ formatTimeOnly(booking.flightId?.departureTime) }}</span>
-                    <span class="bk-detail-airport">{{  }}</span>
+                    <span class="bk-detail-airport">{{ airportLabel(booking.flightId?.originAirportId) }}</span>
                     <span class="bk-timebar-date">{{ formatDateLabel(booking.flightId?.departureTime) }}</span>
                   </div>
                   <i class="bi bi-arrow-right bk-timebar-arrow"></i>
                   <div class="bk-timebar-block">
                     <span class="bk-detail-label">Arrival</span>
                     <span class="bk-timebar-time">{{ formatTimeOnly(booking.flightId?.arrivalTime) }}</span>
+                    <span class="bk-detail-airport">{{ airportLabel(booking.flightId?.destinationAirportId) }}</span>
                     <span class="bk-timebar-date">{{ formatDateLabel(booking.flightId?.arrivalTime) }}</span>
                   </div>
                 </div>
