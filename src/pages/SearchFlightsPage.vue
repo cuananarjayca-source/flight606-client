@@ -335,7 +335,7 @@ function selectDate(isoDate) {
               :class="{ selected: selectedFlightIds[0] === flight._id }"
               @click="selectFlight(0, flight._id)"
             >
-              <div class="fc-endpoint">
+              <div class="fc-endpoint mx-auto">
                 <div class="fc-time">{{ formatTime(flight.departureTime) }}</div>
                 <div class="fc-airport">{{ fromLabel.split('(')[0].trim() }} · {{ flight.originAirportId?.iataCode || 'DEP' }}</div>
                 <div class="fc-date">{{ formatDateLabel(flight.departureTime) }}</div>
@@ -345,7 +345,7 @@ function selectDate(isoDate) {
                 <div class="fc-line"><span class="fc-plane-icon"><i class="bi bi-airplane-fill"></i></span></div>
                 <div class="fc-stops">Direct</div>
               </div>
-              <div class="fc-endpoint">
+              <div class="fc-endpoint mx-auto">
                 <div class="fc-time">{{ formatTime(flight.arrivalTime) }}</div>
                 <div class="fc-airport">{{ toLabel.split('(')[0].trim() }} · {{ flight.destinationAirportId?.iataCode || 'ARR' }}</div>
                 <div class="fc-date">{{ formatDateLabel(flight.arrivalTime) }}</div>
@@ -438,25 +438,25 @@ function selectDate(isoDate) {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 24px;             /* Clean margin framing on the edges */
+  padding: 24px;             
   box-sizing: border-box;
 }
 
 .date-chips {
   display: flex;
   align-items: center;
-  flex-grow: 1;                 /* Forces the chips container to span the width */
-  margin: 0 20px;               /* Adds a healthy gap between the chips and arrows */
-  gap: 8px;                     /* Spacing between adjacent chips */
+  flex-grow: 1;                 
+  margin: 0 20px;               
+  gap: 8px;                     
 }
 
 .date-chip {
-  flex: 1;                      /* Crucial: forces every chip to grow and share equal width */
-  text-align: center;           /* Centers the date text inside its expanded chip box */
-  padding: 12px 8px;            /* Increased vertical padding for a taller, premium button touch target */
+  flex: 1;                      
+  text-align: center;           
+  padding: 12px 8px;            
   cursor: pointer;
   border-radius: 6px;
-  white-space: nowrap;          /* Prevents text from awkwardly wrapping into two lines */
+  white-space: nowrap;          
 }
 
 </style>

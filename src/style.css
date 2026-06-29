@@ -1788,14 +1788,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .date-arrow { font-size: 1.2rem; color: var(--muted); cursor: pointer; flex-shrink: 0; user-select: none; }
 
-.date-chips { display: flex; gap: 6px; }
+.date-chips { display: flex; gap: 6px; border-color: #D4AF37; }
 
 .date-chip {
   background: var(--glass-bg-lt);
   border-radius: 4px;
+  border: solid 1px;
+  border-color: #D4AF37;
   padding: 6px 13px;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   color: var(--muted);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
