@@ -202,13 +202,16 @@ function calcTravelTime(departure, arrival) {
 // Generate a 7-day window centered on the currently selected departure date
 const dateRange = computed(() => {
   if (!sfDate.value) return []
-  const center = new Date(sfDate.value + 'T00:00:00')
+  // Parse date string safely without timezone conversion issues
+  const [y, m, d] = sfDate.value.split('-').map(Number)
+  const center = new Date(y, m - 1, d)
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(center)
     d.setDate(center.getDate() + (i - 3))
-    const iso = d.toISOString().split('T')[0]
+    // Format as local date without timezone conversion
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
     return {
       iso,
       label: d.toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }),
@@ -403,11 +406,11 @@ function selectDate(isoDate) {
               </div>
             </div>
 
-            <div class="card shadow-lg my-5 border-0 border-top border-warning border-3 bg-dark text-white">
+            <div class="card shadow-lg my-5 border-0 custom-progress-card">
               <div class="card-body d-flex justify-content-between align-items-center py-3">
                 <div>
                   <span class="fw-bold gold-link">Selection Progress:</span>
-                  <span class="ms-2 badge bg-warning text-dark">
+                  <span class="ms-2 badge custom-progress-badge">
                     {{ selectedFlightIds.filter(id => id !== null && id !== undefined).length }}
                     / {{ tripType === 'roundtrip' ? 2 : 1 }} flight{{ tripType === 'roundtrip' ? 's' : '' }} selected
                   </span>
@@ -458,5 +461,30 @@ function selectDate(isoDate) {
   border-radius: 6px;
   white-space: nowrap;          
 }
+/* ── Progress Card Container Override ──────────────────── */
+.card.custom-progress-card {
+  background-color: var(--surface-card) !important; 
+  color: var(--text) !important;                    
+  border-radius: 8px !important;
+  border: 1px solid var(--border) !important;
+  border-top: 4px solid var(--gold) !important;
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 
+              0 0 20px var(--accent-30-gls) !important; 
+  padding: 0.5rem 0 !important;
+  transition: var(--theme-transition);
+}
+
+/* ── Badge Content Layout Fixing ───────────────────────── */
+.custom-progress-badge {
+  background-color: var(--gold) !important;         
+  color: var(--bg-60-deep) !important; 
+  padding: 0.4rem 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em;
+  border-radius: 4px !important;
+  transition: var(--theme-transition);
+}
+
 
 </style>

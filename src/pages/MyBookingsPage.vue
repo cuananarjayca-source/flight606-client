@@ -195,6 +195,7 @@ function formatTimeOnly(dt) {
   if (!dt) return '—'
   return new Date(dt).toLocaleTimeString('en-PH', { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit' })
 }
+
 function calcTravelTime(departure, arrival) {
   if (!departure || !arrival) return ''
   const diff = new Date(arrival) - new Date(departure)
@@ -377,7 +378,7 @@ onMounted(() => { if (isLoggedIn.value) loadBookings() })
                 <div class="bk-endpoint">
                   <div class="bk-time">{{ formatTime(booking.flightId?.departureTime) }}</div>
                   <div class="bk-airport">
-                    {{ booking.flightId?.originAirportId?.city || booking.flightId?.originAirportId?.iataCode || 'DEP' }}
+                    {{ booking.flightId.originAirportId?.city || booking.flightId?.originAirportId?.iataCode || 'DEP' }}
                   </div>
                   <div class="bk-date">{{ formatDateLabel(booking.flightId?.departureTime) }}</div>
                 </div>
@@ -492,6 +493,7 @@ onMounted(() => { if (isLoggedIn.value) loadBookings() })
                   <div class="bk-timebar-block">
                     <span class="bk-detail-label">Departure</span>
                     <span class="bk-timebar-time">{{ formatTimeOnly(booking.flightId?.departureTime) }}</span>
+                    <span class="bk-detail-airport">{{  }}</span>
                     <span class="bk-timebar-date">{{ formatDateLabel(booking.flightId?.departureTime) }}</span>
                   </div>
                   <i class="bi bi-arrow-right bk-timebar-arrow"></i>

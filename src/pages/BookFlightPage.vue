@@ -263,6 +263,7 @@ function applySaved(pIdx, savedId) {
     if (!p) return;
     p.firstName   = sp.firstName || '';
     p.lastName    = sp.lastName || '';
+    p.email    = sp.email || '';
     p.gender      = sp.gender || '';
     p.dateOfBirth = sp.dateOfBirth ? sp.dateOfBirth.substring(0, 10) : '';
     p.nationality = sp.nationality || '';
@@ -417,13 +418,17 @@ function routerBack() {
                             </div>
 
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="form-label small fw-bold bf-text-main">First Name</label>
                                     <input type="text" class="form-control bf-input" v-model="p.firstName" required>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="form-label small fw-bold bf-text-main">Last Name</label>
                                     <input type="text" class="form-control bf-input" v-model="p.lastName" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold bf-text-main">Email</label>
+                                    <input type="text" class="form-control bf-input" v-model="p.email" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small fw-bold bf-text-main">Date of Birth</label>

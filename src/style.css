@@ -1608,14 +1608,18 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 4px;
   padding: 14px;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  overflow: hidden;
+  font-size: calc(0.4rem +1vw) !important; 
+  text-overflow: ellipsis;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
   transition: background 0.2s ease;
   margin-bottom: 12px;
+  white-space: nowrap;
 }
+
 
 .btn-gold-full:hover { background: var(--gold-light); }
 
