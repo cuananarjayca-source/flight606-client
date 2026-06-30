@@ -34,28 +34,28 @@ The platform is designed around a premium "Flight 606" brand identity: a dark, e
 
 ## ✨ Features
 
-- **Smart Flight Search** — One-way, Round-trip, and Multi-city search with dynamic filtering by price, time, and stops
+- **Smart Flight Search** — One-way and Round-trip search with dynamic filtering by date.
 - **Interactive Seat Selection** — 2D cabin map with real-time seat availability, lock timers, and class indicators
 - **Multi-Passenger Booking** — Supports group bookings, companion profiles, and guest checkout (no account required)
-- **Digital Boarding Passes** — QR-code-enabled, mobile-friendly boarding pass generated instantly on confirmation
+- **Digital Boarding Passes** — Mobile-friendly boarding pass generated instantly on confirmation
 - **Itinerary Management** — Organize multiple bookings under a named travel itinerary
 - **Admin Dashboard** — Secure portal for flight CRUD operations, seat management, and passenger manifest export
-- **Mock Payment Flow** — Stripe Test Mode simulation (no real transactions)
-- **Notification System** — In-app alerts for booking updates and flight status changes
+- **Mock Payment Flow** — Purely logical flow of payment simulation (no real transactions)
+- **Notification System** — In-app alerts for booking updates and flight status changes (future update)
 - **Responsive Design** — Fully functional on desktop, tablet, and mobile via Bootstrap 5
 
 ---
 
 ## 🖥️ Visuals
 
-> Screenshots and GIFs of the live application are linked below. All screens reflect the deployed version at [heroic-vacherin-4f50fb.netlify.app](https://heroic-vacherin-4f50fb.netlify.app).
+> Screenshots and GIFs of the live application are linked below. All screens reflect the deployed version at [https://flight606-client-blue.vercel.app/](https://flight606-client-blue.vercel.app/).
 
 | Screen | Description |
 |:---|:---|
 | **Hero / Landing** | Full-bleed aircraft background with frosted-glass search widget and dynamic tagline carousel |
 | **Flight Results** | Filterable list of matching flights with price, stops, duration, and airline info |
 | **Seat Map** | 2D cabin grid with live availability and session-based seat locking |
-| **Booking Confirmation** | PNR code, flight summary, passenger list, and QR-coded boarding pass |
+| **Booking Confirmation** | PNR code, flight summary, and passenger list |
 | **Admin Dashboard** | Data-rich table interface for flight and seat management |
 
 > 🎨 For high-fidelity screen designs, see the [Figma prototype](https://www.figma.com/design/kgJUpm3z5jK5Ya3jaDYiQ8/APRIL-PROJECT?node-id=37-6284&t=KInoG9fmcZiqOFzD-0).
@@ -93,10 +93,9 @@ npm install
 Create a `.env` file in the project root:
 
 ```env
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/flight606
-JWT_SECRET=your_jwt_secret_here
-NODE_ENV=development
+PORT=<insert port>
+MONGODB_URI="<insert URI>"
+JWT_SECRET=<your_jwt_secret_here>
 ```
 
 > For production, replace `MONGODB_URI` with your MongoDB Atlas connection string.
@@ -115,7 +114,7 @@ npm run dev
 
 **6. Open the app**
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser.
+Visit [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
@@ -124,7 +123,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 ### Booking a Flight
 
 1. On the landing page, enter your **origin**, **destination**, and **travel date** in the search widget
-2. Select a trip type: **One Way**, **Round Trip**, or **Multi-city**
+2. Select a trip type: **One Way**, or **Round Trip**
 3. Click **"Book now!"** to view available flights
 4. Choose a flight from the results and select your **seat** from the cabin map
 5. Fill in **passenger details** (name, passport, contact info)
@@ -133,7 +132,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Admin Access
 
-Navigate to `/login?redirect=/admin-dashboard` and sign in with admin credentials to access the management portal.
+Sign in with admin credentials to access the management portal.
 
 ```
 Default Admin Credentials (development only):
@@ -150,7 +149,7 @@ Default Admin Credentials (development only):
 For issues or questions:
 
 - **GitHub Issues:** [Open an issue](https://github.com/cuananarjayca-source/flight606-client)
-- **Email:** cuananarjay.ac@gmail.com
+- **Email:** cuananarjay.ca@gmail.com
 - **Trello Board:** TBD (https://trello.com/b/chEYCUpN/phase-1-airline-booking-system)
 
 Please include your browser, OS, and a description of the problem when reporting bugs.
@@ -160,11 +159,11 @@ Please include your browser, OS, and a description of the problem when reporting
 ## 🗺️ Roadmap
 
 ### v1.x (Current — In Progress)
-- [x] Flight search (One-way, Round-trip, Multi-city)
+- [x] Flight search (One-way, Round-trip)
 - [x] Seat selection with lock timer
 - [x] Passenger details and booking flow
 - [x] Mock payment processing
-- [x] Digital boarding pass with QR code
+- [ ] Digital boarding pass with QR code
 - [x] Admin dashboard (flight + seat management)
 - [x] User dashboard and trip history
 - [x] Notifications system
@@ -257,7 +256,7 @@ Special thanks to:
 - **Vue.js** - for structured SPA Web
 - **MongoDB** — for the flexible document model that made nested booking data elegant
 - **Figma** — for the design system collaboration tools
-- **Netlify** — for frictionless frontend deployment
+- **Vercel** — for frictionless frontend deployment
 
 ---
 
