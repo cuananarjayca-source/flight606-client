@@ -109,14 +109,12 @@ The Airline Booking System is a **standalone web application** designed to provi
 | Search Widget | The primary data-entry tool. | From/To dropdowns, Departure Date picker, Passenger count, ""Book now!"" button. |
 | Featured Destinations | Dynamic grid of top travel spots. | 2-column responsive grid, fixed aspect-ratio images, location detection "Traveling from your location." |
 | Interactive Cabin | Seat selection interface. | 2D Seat Map, Legend (Available, Occupied, Selected), ""Seat Locked"" timer logic. | 
-| Discover / Editorial Cards | Highlights news, app promos, and destination features. | 3-column card grid, thumbnail images, short descriptions, inline text CTAs (Read More, Download Now, Explore More). | 
-| Cheap Flights / Deals Section | Algorithmically curated low-fare suggestions. |  low-fare suggestions. 2-column card grid, destination image, city name, date range, flight duration, price. |
 | Footer | Site-wide navigation and brand links. |  Multi-column link groups (Other Offerings, About Us, Corporate Travel, AskMH), newsletter Subscribe CTA, social media icons, legal links. |
 | Passenger Details Page | Collects legal traveler information for all passengers on the booking. | Name, birthdate, gender, nationality, passport, expiry date, contact info fields. |
 | Payment Page | Mock payment entry form. No real transactions. | Card number, expiry CVV fields. Stripe Test Mode badge. |
 | Search Results Page | Displays flights matching the user's query with filter controls. | Flight result cards (airline, time, duration, stops, price), filter sidebar(price,time, stops). |
-| Booking Confirmation | Success screen displayed after a booking is finalized. | Unique PNR code, flight summary, passenger list, digital boarding pass preview with QR code. |
-| Digital Boarding Pass | Mobile-friendly standalone view of a confirmed flight ticket. | Flight number, route, passenger name, seat number, departure time, QR code for gate scanning. |
+| Booking Confirmation | Success screen displayed after a booking is finalized. | Unique PNR code, flight summary, and passenger list. |
+| Digital Boarding Pass | Mobile-friendly view of a confirmed flight ticket. | Flight number, route, passenger name, seat number, departure time. |
 | User Dashboard | Personalized hub for authenticated users to manage their travels. | Upcoming trips, past booking history, boarding pass access, loyalty points(stretch goal). |
 | Admin Dashboard | Secure management interface for Flight Administrators. | Flight schedule table, add/edit/remove flight controls, seat availability management, passenger manifest export. |
 | Login/Register Page | User authentication screens. | Email and password fields, Register and Login CTAs, guest checkout option. | 
@@ -125,8 +123,8 @@ The Airline Booking System is a **standalone web application** designed to provi
 ### 5.2 UI Logic Requirements
 - **Hero & Navigation Logic**: 
   - **Sticky Header Transition**: As the user scrolls past the Hero image ($> 600px$), the navigation bar should transition from transparent to Rich Charcoal (#1F1F1F) with $90\%$ opacity to maintain legibility over content.
-  - **Dynamic Tagline Carousel**: The text within the frosted glass box ("This view never gets old," "On cloud nine") should auto-rotate every $5$ seconds with a soft fade-in/out effect.
-  - **Progress Slider**: The white progress bar below the tagline must sync with the carousel timer. Clicking the left/right arrows manually resets the timer to zero.
+  - **Dynamic Background Carousel**: The hero section background image automatically changes every 5 seconds instantly.
+  - **Progress Slider**: The gold progress bar below the tagline must sync with the carousel timer. Clicking the left/right arrows manually resets the timer to zero.
 
 - **Smart Search Widget Logic**:  
     - **Trip Type Toggle**: Switching from "One way" to "Multi-city" must dynamically inject a new row of input fields (From/To) into the widget, expanding the golden container's height smoothly.
@@ -155,7 +153,7 @@ Recognizing the relationship between Users and Passengers, the system allows for
     - **Document Validation**: Built-in logic to ensure Passport/ID formats and expiration dates are valid before proceeding to payment.
 ### 6.3 "Flight 606" User Dashboard
 A personalized hub for managing the travel lifecycle.
-    - **Digital Boarding Passes**: Generates a mobile-friendly view of flight details and QR codes upon successful booking.
+    - **Digital Boarding Passes**: Generates a mobile-friendly view of flight details upon successful booking.
     - **Trip History**: A chronological archive of past and upcoming flights.
     - **Reward Points Tracking**: (Optional/Stretch Goal) Displays loyalty points earned per kilometer traveled.
 
